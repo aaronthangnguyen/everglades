@@ -1,0 +1,33 @@
+---
+- name: Set up Fedora for Virtualization
+  hosts: metal
+  become: true
+  tasks:
+    - name: Ping the host
+      ping:
+
+    - name: Install virtualization packages
+      dnf:
+        name:
+          - qemu-kvm-core
+          - libvirt
+          - virt-install
+          - cockpit-machines
+          - guestfs-tools
+        state: present
+
+    - name: Enable and start libvirtd
+      service:
+        name: libvirtd
+        state: started
+        enabled: true
+
+    - name: Configure libvirt default network
+      community.libvirt.virt_net:
+        name: default
+        state: active
+        autostart: true
+
+    - name: Reboot system
+      reboot:
+        msg: "Rebooting to finalize virtualization setup."
