@@ -27,7 +27,3 @@
         name: default
         state: active
         autostart: true
-
-    - name: Reboot system
-      reboot:
-        msg: "Rebooting to finalize virtualization setup."
